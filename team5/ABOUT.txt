@@ -1,11 +1,30 @@
-Template for ABOUT.txt
-- Project name
-- Main question
+ABOUT.txt
+- Project name: Getting North Carolina Products to People in Need
+- Main question: How do people in unstable situations have access to fresh foods
 - Description of the project
 - Insights
+  - High density of farm land in Johnston county indicates the potential for more products to be cultivated.
 - Description of files included
+  - Ag_census.csv
+  - Ag_census.xlsx
+  - Data Needs
+  - FarmersMarketCrops.csv
+  - farm.plot.png
+  - food.plot.png
+  - load_data_crunch_data.R
+  - render_plota.R
+  - data4good.pptx
 - Data sources
+  -http://quickstats.nass.usda.gov/
 - Future work
+  - Chart the flow of the farm fresh products between food sources such as food banks and pantries.
+  - Use Distance between food banks and pantries to gain more insights
+  - Granularity of data extended to individual household level data (eg the relationship between households receiving assistance and access to farmer's markets)
 - Contributors
+  -Shannon Bell
+  -Scott Zelenka
+  -Aiko Hattori
+  -Anuja Acharya
+  -Sharmila Sekaran
 - Link to source code in Github
 or zip files mailed to: ncdata4good@gmail.com
