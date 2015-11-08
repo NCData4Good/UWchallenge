@@ -1,11 +1,8 @@
-Template for ABOUT.txt
-- Project name
-- Main question
-- Description of the project
-- Insights
-- Description of files included
-- Data sources
-- Future work
-- Contributors
-- Link to source code in Github
-or zip files mailed to: ncdata4good@gmail.com
+Estimating the food waste of Grocery Stores
+How much food waste happens in NC RTP 4 main counties (wake, durham, orange, johnston)?
+Insights: Data set is in good shape but needs to be revisited
+-somebusinesses are not stores (web services, lawyers, etc)
+-some stores need a special plan (brewery, icecream shops, vitamin shop)
+-estimation of food waste per capita might be the best approach to have a neutral approach.
+Data:groceries.csv
+Miguel Maldonado
