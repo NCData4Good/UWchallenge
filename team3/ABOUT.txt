@@ -1,11 +1,40 @@
 Template for ABOUT.txt
 - Project name
+
+Measuring the Distance People in Need Travel to Food Pantries
+
 - Main question
+
+How far do people in need travel to food pantries?
+
 - Description of the project
+
+Tasked with exploring the data surrounding the issue of child hunger in North Carolina, we decided to analyze the distance of the food pantries from the people in need. For the purpose of this analysis, we focused on Durham, Johnston, Orange, and Wake Counties in North Carolina. On a census tract level, we gathered information from the American Community Survey about the population: the total number of households, the percentage of households receiving food stamps, the percentage of households with children under 18 years, the percentage of households with children under 18 years receiving foods stamps, and other such categories. In addition, we had received data regarding the food pantries that claimed to serve the four counties on which we were focusing. Combining these two sets of information, we proceeded by calculating the distance from the center of each of these census tracts to the individual food pantries. 
+
 - Insights
+
+We would recommend (1) investigating further the two census tracts that were identified as having a large number of households receiving food stamps but not much access to food pantries, and (2) looking to see if there are other locations, such as grocery stores or farmers’ markets, from which households could Easily access low-cost food. 
+
 - Description of files included
+
+R code - pantries.R, mapping_analysis.R
+Python code - find_areas_of_need.ipynb
+Intermediate data produced - tracts.json, plottable_census_tracts_and_pantries
+
 - Data sources
+
+pantries.cv, ACS_13_5YR_S2201, tl_2015_37_tract
+
 - Future work
+
+Based on our results, we would recommend further investigating those two census plots that contain both a larger number of households that received food stamps as well as a further distance to travel. Future research could also include sub-setting only the population that receives food stamps and has children under the age of 18. Additionally, we would recommend looking into those households that receive WIC and SNAP in order to determine the distance of these recipients from the food pantries. You might also consider looking into additional locations of acquiring food, such as feeding sights (for children in the summer) and grocery stores or farmers markets. 
+
 - Contributors
+
+Rita Bennett-Chew, Sarah Gauby, SHARIQ IQBAL, Erica Levine, Bharathkumar Ramachandra, Suzy Stiegelmeyer
+
 - Link to source code in Github
+
+In this repo.
+
 or zip files mailed to: ncdata4good@gmail.com
