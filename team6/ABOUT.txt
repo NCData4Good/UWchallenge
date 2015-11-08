@@ -1,11 +1,60 @@
 Template for ABOUT.txt
+
 - Project name
+NC Food Resource Exploration Map
+
 - Main question
+
+
+- Background (from Data4Good website)
+Partnering with the United Way of the Greater Triangle, NC Data4Good is using data to explore questions about food insecurity in Durham, Johnston, Orange and Wake Counties.
+
 - Description of the project
+We wanted to provide a tool for organizations to explore the resources available and the demand for food assistance. The map we created will help organizations start to understand what areas have the biggest mismatch and need the most attention.
+
 - Insights
+Our maps shows the locations of: schools, feeding sites, churches, convenience stores, grocery stores, farmers markets, food pantries, SNAP retailers and bus stops. The map breaks the counties down by school district and school boundaries for varying levels of granularity. It also provides basic summary statistics for each school including: total number of students, number of students on free or reduced lunch, and a performance measure of the school.
+
+
 - Description of files included
+This is a Shiny App written in R.  The full code can be found in GitHub (below).  The files included are:
+
+places.rda - combined orginal data sources
+dist-mat.rda - distances between all the places and all the other places. 
+schools.rda -  combined data file including census data and school achievement data.
+ui.R - Shiny App user interface.
+server.R - Code that create the visualizations and graphs.
+tidy.R - Processes raw data to create schools.rda.
+
+
+
 - Data sources
+Most of the data sources were provided by NCData4Good (http://ncdata4good.github.io/DataCrunch2015/) and include the following:
+Export.csv - Farmer's Markets locations
+SNAP-NC.csv - SNAP Retailer locations
+NCPlaces.csv - Schools, Churches, and Community places and locations
+http://nces.ed.gov/surveys/sdds/sabs/ - Schools Boundaries
+tl_2015_37_unsd.zip - School District Boundaries Shapefile
+busstops.rds - Bus Stop locations
+
 - Future work
+We'd like to continue to build this tool as a way to visualize and explore data around hunger.  Some of the features that may be useful to include in future versions of this tool include:
+- Expand the scope to include data from across North Carolina
+- Include census boundaries as an option in addition to school boundaries and district boundaries
+
 - Contributors
+Jordan Meyer - jordan.meyer@rittmanmead.com
+Joe Elliott - joe.elliott@joulebug.com
+Iain Carmichel - idcarm@live.unc.edu
+
+
 - Link to source code in Github
 or zip files mailed to: ncdata4good@gmail.com
+
+
+Presentation: - Team 6 
+Project name
+Main question trying to solve
+Insights
+Contributors
+
