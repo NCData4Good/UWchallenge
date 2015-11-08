@@ -1,11 +1,18 @@
-Template for ABOUT.txt
-- Project name
-- Main question
-- Description of the project
-- Insights
-- Description of files included
-- Data sources
-- Future work
-- Contributors
-- Link to source code in Github
-or zip files mailed to: ncdata4good@gmail.com
+Project Title: Poverty Demographics and Food Assistance Locations
+
+Main Questions: Which areas of the 4 Counties of NC (Orange, Durham, Johnston, WWake) are the most impoverished and where are the nearby sites for food assistance? 
+
+Description: In this project we presented poverty demographics of 4 counties of North Carolina and created maps to show which cities are more impverished than others and where all of the food assistance programs are located.
+
+Data Sources: PovertyOfCities.csv is used to populate the poverty levels map.
+This data is from the ACS website. 
+2009-2013 Percent of People Below Poverty level in the past 12 months.
+2009-2013 Percent of Related Children Under 18 years below poverty in the past 12 months - GCT1702 
+
+The feeding site map was populated with sites.pantry.csv which is compiled from local_agencies.csv and pantries.csv
+
+Future Work: In most impoverished cities, look into capacity of food assistance locations to see if the needs are being met or if more locations need to be opened. 
+
+Contributors: Christine Grassi, Kruthika Potlapally, Gunes Yucel
+
+
