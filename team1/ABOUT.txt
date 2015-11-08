@@ -1,0 +1,37 @@
+* Project Name
+United Way Challenge: Data
+	Where we are and where we need to be
+	
+* Main Questions
+Is there good data available?
+	What/where are resources to be tapped?
+	Thinking about crowd-sourcing data gathering
+	Thinking about total population hunger, not just kids
+What needs to be done to make the data useful?
+
+* Insights
+Google is useful, but not free
+	2500/day limit for free queries
+	10 queries/second limit
+	United Way should have Google accounts for use by researchers and volunteers
+FIPS codes are useful (thanks, Zeydy)
+USGS location data was a great find
+Agency programs data needed a lot of work
+
+* Future Work
+Add census tract data to locations
+Create Python code for github
+Ushahidi or similar application for crowd-sourced data gathering
+Culinary schools
+	Create profitable recipes (thanks Lauren)
+	Teach cooking/recipes for those in line (thanks, Lucia)
+Work with attendees – ?how?
+
+* Future Data & Actions
+Health inspection data (no churches)
+Yelp/Google reviews
+Work with Nutrition schools (NCCU, UNC, Duke) to gather data
+Work with Maureen Berner
+Foodbank ERP data
+Work with local food experts (authors, investors, restaurateurs, grocery stores)
+Find farm (and food chain) data
