@@ -1,0 +1,11 @@
+Template for ABOUT.txt
+- Project name
+- Main question
+- Description of the project
+- Insights
+- Description of files included
+- Data sources
+- Future work
+- Contributors
+- Link to source code in Github
+or zip files mailed to: ncdata4good@gmail.com
