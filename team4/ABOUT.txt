@@ -1,11 +1,20 @@
-Template for ABOUT.txt
-- Project name
-- Main question
-- Description of the project
-- Insights
-- Description of files included
-- Data sources
-- Future work
-- Contributors
-- Link to source code in Github
-or zip files mailed to: ncdata4good@gmail.com
+Project name: Childhood Hunger and Summer Feeding
+
+Main question: How do we tackle child food insecurity during summer?
+- School meals can be very effective in providing food for children living in poverty. However, many children lose access to this food source during the summer. There are established government programs to supply food during the summer. However, the distribution is limited both spatially and in efficacy. We give some insight on the geological distribution and efficacy on the established summer feeding sites, as well as give some insights on economics of running a summer feeding site. 
+
+Insights:
+Description of Files
+- RunScriptGeom - Reads data and displays maps on the spatial distribution these feeding sites. 
+- FeedingSiteExploration - Reads data and looks at the efficacy of feeding sites (looks at total meals, population served, days of operation, etc). 
+- Feeding Site Financials.xlsx - Spreadsheet of possible economic plan. Break down of supply costs, overhead, meals served, and possible revenues.  
+- Powerpoint - Brief presentation of our insights. 
+
+Future work - Potentially identify locations of underserved communities. Identify new indicators of feeding site efficacy.
+
+Contributors:
+Lauren Miller
+Dhruv Sakalley
+Rock Pereria
+Rick Pack
+David Chen
