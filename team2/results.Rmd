@@ -1,0 +1,100 @@
+---
+title: "Bus Accessibility of Food Pantry"
+author: "Alice Broadhead  Monika Sanghi Kip Sutter Clara Sutter"
+date: "November 8, 2015"
+output: html_document
+---
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(ggmap)
+library(dplyr)
+library(ggplot2)
+#reading data from pantries.csv and busstops.rds
+pantry <- read.csv("pantries.csv",sep=",",header=T)
+bus_stop <- readRDS("busstops.rds")
+
+pantry_busstop_analysis <- read.csv("pantry_bus_availability_by_county.csv",header=T,sep=",")
+
+names(pantry_busstop_analysis) <- 
+                                c("County","Food Pantry","With Bus Service","% Bus Service")
+
+head(pantry_busstop_analysis)
+
+pantry<-subset(pantry,county=c("Wake","Orange","Durham"))
+#Adding an extra field "Category" in both data frames 
+
+pantry$category <- "Pantry"
+bus_stop$category <- "BusStop"
+
+
+#Subsetting both data frames for longitude, Latitude and their category
+
+pantry_subset <- subset(pantry, select=c(lon,lat,category))
+#Changing Column names in pantries_busstop
+names(pantry_subset) <- c("lon","lat","category")
+busstop_subset <- subset(bus_stop, select=c(location.lng,location.lat,category))
+#Changing Column names in pantries_busstop
+names(busstop_subset) <- c("lon","lat","category")
+
+# Combining pantries subset and busstops_subset in one Data Frame pantries_busstop
+pantries_busstop <- rbind(pantry_subset,busstop_subset)
+
+```
+
+
+
+```{r message=FALSE, echo=FALSE}
+library(ggmap)
+qmplot(lon,lat,data = pantries_busstop,colour=category) +
+   ggtitle("Food pantry and BusSTops in 4 counties")
+  
+
+qmplot(lon,lat,data=pantry,color=county,size=I(3)) +
+   ggtitle("Pantries by Counties")
+
+```
+
+```{r message=FALSE, echo=FALSE}
+pantryies <- read.csv(file="pantryies.csv",head=TRUE,sep=",")
+bustops <- bus_stop
+pantriesBus <-  read.csv(file="distances_pantries_to_busstop.csv",head=TRUE,sep=",")
+# Rename column name 
+bustops$lat <- dplyr::select(bustops, lat=location.lat )
+bustops$lon <- dplyr::select(bustops, lon=location.lng )
+df2 <- dplyr::select(pantryies,lat,lon)
+df3 <- dplyr::select(bustops,lat,lon)
+
+
+
+# 
+# qmplot(lon, lat, data = pantryies, colour = "red", size = I(3))
+# 
+# qmplot(lon, lat, data = bustops, colour ="blue" , size = I(3))
+# qmplot(pantry_lon, pantry_lat, data = pantriesBus, colour = "red", size = I(3))
+# 
+# qmplot(lon, lat, data = pantryies, colour =Less_Than1Mile, size = I(3))
+
+# All County only
+qmplot(lon, lat, data = pantryies, color=Distance_To_BusStop,
+       size = I(3)) + scale_color_discrete(name="Distance to Bus stop") + 
+  ggtitle("If you take a bus:Which Pantries are within reasonable Walkable Distance?")
+
+# Johnson County only
+qmplot(lon, lat, data = dplyr::filter(pantryies, county=="Johnston"), color=Distance_To_BusStop,
+       size = I(3)) + scale_color_discrete(name="Distance to Bus stop") + 
+  ggtitle("If you take a bus: Walkable Distance in Johnston county?")
+# Wake County only
+qmplot(lon, lat, data = dplyr::filter(pantryies, county=="Wake"), color=Distance_To_BusStop,
+       size = I(3)) + scale_color_discrete(name="Distance to Bus stop") + 
+  ggtitle("If you take a bus: Walkable Distance in Wake county?")
+# Durham County only
+qmplot(lon, lat, data = dplyr::filter(pantryies, county=="Durham"), color=Distance_To_BusStop,
+       size = I(3)) + scale_color_discrete(name="Distance to Bus stop") + 
+  ggtitle("If you take a bus: Walkable Distance in Durham county?")
+
+qmplot(lon, lat, data = dplyr::filter(pantryies, county=="Orange"), color=Distance_To_BusStop,
+       size = I(3)) + scale_color_discrete(name="Distance to Bus stop") + 
+  ggtitle("If you take a bus: Walkable Distance in Orange county?")
+```
+
