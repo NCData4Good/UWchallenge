@@ -1,11 +1,51 @@
-Template for ABOUT.txt
-- Project name
-- Main question
-- Description of the project
-- Insights
-- Description of files included
-- Data sources
-- Future work
-- Contributors
-- Link to source code in Github
-or zip files mailed to: ncdata4good@gmail.com
+Project Name: Bringing Bus Stops and Pantries Closer
+Main Question: Can people get to food pantries by bus?
+	People who need 'emergency' food will not always have reliable personal vehicles. Will they be able to get to the food pantries by bus?
+
+	We checked which pantries have bus stops within a mile of their location.
+
+	We also visualized pantry and bus-stop data.
+
+	We emphasize that this analysis does not ask whether there are bus routes from low income areas to pantries.
+	This analysis only addresses whether it is possible for someone somewhere to travel to pantries in Wake, Durham, Orange and Johnston counties by bus.
+	We can only expect that there are many people who cannot travel to the nearest pantry by bus than these results indicate.
+
+Insights:
+
+	We found that Johnston County does not have bus lines except for limited use by handicapped and elderly. With Johnston County there are 169 pantries but without 
+		there are 136 pantries.
+	Only 86 pantries are served by buses (defined as having a bus stop within 1 mile), which is about 2/3 of pantries in Wake, Orange, and Durham counties.
+	By county, pantry bus coverage is from greatest to least, Durham (95%), Orange (67%), and Wake (49%), with Johnston county having 0% coverage.
+	These insights are visualized in associated html files.
+
+	Johnston county has the most room for improvement, but lower cost improvement might be in Wake county where there are existing bus lines that could be extended.
+
+Supporting files:
+	bus_stops_pantries.docx: writeup of findings including visuals
+	pantries_distances_clean.ipynb: Ipython notebook in which distances are calculated and data aggregated by county
+	results.Rmd: R markdown script creating plot of pantries and bus stop locations
+	results.html: html output of RMarkdown presentation
+	results.pdf: pdf output of RMarkdown presentation
+	pantry_bus_availability_by_county.csv: csv output of bus availability by county
+	distances_pantries_to_busstops.csv: csv output of distances from each county to each bus stop within one mile 
+							(does not include food pantries in Johnston County as it does not have a bus line)	 
+	rdsstops.csv: csv output of busstops.rds (so that we could use python rather than R for some analyes)
+
+	--------------------Data Sources-------------------
+Files provided at the NC Data4Good Data Crunch:
+	busstops.rds: bus stop data from Transloc that we converted to csv and output as rdsstops.csv
+	pantries.csv: food pantry data including location
+
+	--------------------Future Work--------------------
+Our analyses have been fairly limited in scope: 
+	We have merely looked at pantries that have bus stops within less than a mile.
+	Future analyses should address whether there are bus routes that travel from low income neighborhoods (e.g. by zip codes identified as low income) 
+		to the food pantries in a reasonable amount of time (e.g. < 1 hour).
+
+Contributors:
+	Monika Sanghi
+	Kip Sutter
+	Clara Sutter 
+	Rex 
+	Alice Broadhead
+	Lucia Gjeltema
