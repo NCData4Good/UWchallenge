@@ -1,0 +1,191 @@
+---
+title: "Bringing Bus Stops and Pantries Closer"
+output: 
+  html_document:
+    self_contained: yes
+    lib_dir: libs
+    fig_retina: 1
+---
+
+People who need to get food from food pantries do not always have reliable personal vehicles. 
+Are they able to get to the food pantries by using public transportation?
+</br>
+
+#### Can people get to food pantries by bus?
+We visualized locations of food pantries and bus stops in the four counties
+Durham, Johnston, Orange, and Wake. Our analysis shows which pantries have bus
+stops within a mile (a 'reasonable' walking distance) of their location.
+
+Limitations:
+The distance between pantries and bus stops is calculated as great circle
+distance. Obstacles which might increase the actual walking distance (such as
+rivers, buildings, walls) were not taken into account. We emphasize that this
+analysis does not ask whether there are bus routes from low income areas to food
+pantries.	This analysis only addresses whether it is possible for someone
+somewhere to travel to pantries in Wake, Durham, Orange and Johnston counties by
+bus. Another limitation is that we are missing bus schedules (to determine which
+days/hours a bus operates) and hours for food pantries.
+</br>
+
+#### Visualization
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(dplyr)
+
+pantry <- read.csv("C:/zol/Data4Good/pantries.csv",sep=",",header=T, stringsAsFactors = FALSE)
+pantry <- mutate(pantry,
+                 city=as.factor(city),
+                 state=as.factor(state),
+                 county=as.factor(county))
+pantry <- rename(pantry, name=foodpantry) # rename a column
+pantry <- subset(pantry,county=c("Wake","Orange","Durham")) %>% droplevels()
+# some locations have the same name (edit to ensure uniqueness) 
+pantry$name[duplicated(pantry$name)] <- paste(pantry$name[duplicated(pantry$name)],"- Location2")
+pantry$category <- as.factor("Pantry")
+
+bus_stop <- readRDS("C:/zol/Data4Good/busstops.rds")
+# get rid of empty columns
+bus_stop <- select(bus_stop, -c(url, description, parent_station_id, station_id))
+bus_stop <- rename(bus_stop, lat=location.lat, lon=location.lng)
+bus_stop$category <- as.factor("BusStop")
+
+
+pantries_and_busstops <- merge(bus_stop, pantry, all=TRUE);
+pantries_and_busstops$category_county <- as.factor(
+  ifelse(pantries_and_busstops$category=="BusStop",
+         "BusStop",
+         paste(pantries_and_busstops$category, pantries_and_busstops$county)))
+```
+
+The locations of food pantries and bus stops (GoTriangle, GoRaleigh, GoDurham, 
+Chapel Hill Transit, NC State University Wolfline, Duke University Transit) 
+in the four counties Durham, Johnston, Orange, and Wake:  
+Note that Johnston County does not have bus lines except for limited use by 
+handicapped and elderly people. 
+Including Johnston County there are 169 food pantries, excluding Johnston County 
+there are 136 pantries.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(leaflet)
+my_color_palette <- colorFactor(c("sandybrown", "turquoise4", "turquoise2", "turquoise3", "darkturquoise"), 
+                                domain = sort(levels(pantries_and_busstops$category_county)))
+# interactive map of all bus stops and all pantries
+mm <- leaflet(data = pantries_and_busstops) %>% 
+  addTiles() %>%
+  addCircles(lat = ~lat, lng = ~lon, 
+             group = ~category_county, color = ~my_color_palette(category_county),
+             fillOpacity = 0.5, opacity = 0.5,
+             popup = ~paste0(category,": ",name)) %>%
+  addLayersControl(overlayGroups=pantries_and_busstops$category_county,
+                   options=layersControlOptions(collapsed=FALSE)) %>%
+  addLegend("bottomright", pal = colorFactor(c("darkturquoise","sandybrown"), 
+                                             levels = c("Pantry", "Bus Stop")), 
+            values = c("Pantry", "Bus Stop"));
+mm
+
+# interactive map with icon symbols
+my_icons <- iconList(
+  BusStop = makeIcon("busstop.png", iconWidth = 12, iconHeight = 12),
+  Pantry = makeIcon("pantry.png", iconWidth = 15, iconHeight = 15)
+)
+mm_icons <- leaflet(data = pantries_and_busstops) %>% 
+  addTiles() %>%
+  addMarkers(lat = ~lat, lng = ~lon, 
+             group = ~category_county, 
+             popup = ~paste0(category,": ",name),
+             icon= ~my_icons[category]) %>%
+  addLayersControl(overlayGroups=pantries_and_busstops$category_county,
+                   options=layersControlOptions(collapsed=FALSE));
+#mm_icons
+```
+
+How close is each pantry to the nearest bus stop?  
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+# get great circle distance between one point and a set of points
+MinDistForOneLocation <- function(ID){
+ TMP_pantry <- subset(pantry, name==ID);
+ TMP_dist <- geosphere::distHaversine(as.matrix(select(TMP_pantry, lon, lat)),
+                                      as.matrix(select(bus_stop, lon, lat)));
+ TMP_min_dist <- data.frame(pantry_name = ID, 
+                    ClosestBusstop = bus_stop[which.min(TMP_dist),"name"],
+                    DistanceInMeters = min(TMP_dist),
+                    DistanceInMiles = min(TMP_dist)*0.000621371);
+ return(TMP_min_dist)
+}
+
+DistanceMatrix <- rbind_all(lapply(pantry$name, MinDistForOneLocation)) # in meters and in miles
+
+```
+
+
+Johnston county has the most room for improvement (since there is no public transportation), 
+but lower cost improvement might be in Wake county where there are existing bus lines that could be extended or modified.  
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+# which pantry has a busstop nearby?
+pantry <- left_join(pantry, DistanceMatrix, by=c("name"="pantry_name"))
+pantry$reach <- factor(ifelse(pantry$DistanceInMiles<0.25,"less than 1/4 mile", 
+                              ifelse(pantry$DistanceInMiles<0.5,"less than 1/2 mile", 
+                                     ifelse(pantry$DistanceInMiles<1, "less than 1 mile", "more than 1 mile"))),
+                       levels=c("less than 1/4 mile", "less than 1/2 mile", "less than 1 mile", "more than 1 mile"),
+                       ordered=TRUE);
+
+require(ggplot2)
+ggplot(pantry, aes(DistanceInMiles, fill=county, group=county)) + 
+  geom_histogram(binwidth=1) +
+  ggtitle("Distance from food pantries to closest bus stop") 
+```
+
+86 pantries in the four counties are served by buses (defined as having a bus stop within a 1 mile radius). We found that the vast majorities of food pantries in Durham
+County (95%) were served by at least one bus stop within a mile, whereas Orange County only had 67%
+of pantries served by bus stops and in Wake County a mere 49% of pantries were served by bus stops.
+Johnston County does not have a bus line, so none of its pantries were served by bus stops.
+These insights are visualized below.  
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+my_color_palette <- colorFactor(rev(heat.colors(nlevels(pantry$reach))), 
+                                levels = levels(pantry$reach), ordered=TRUE);
+
+mm_pantry <- leaflet(data = pantry) %>% 
+  addTiles() %>%
+  addCircles(lat = ~lat, lng = ~lon, 
+             group = ~county, 
+             color = ~my_color_palette(reach),
+             fillOpacity = 0.5, opacity = 0.5,
+             popup = ~paste0(category,": ",name, "\n",
+                             "Distance to nearest bus stop: ", 
+                             round(DistanceInMiles,2), " mi.")) %>%
+  addLegend("bottomleft", pal = my_color_palette, values = ~reach,
+            title = "Distance to bus stop",
+            opacity = 0.5 ) %>%
+  addLayersControl(overlayGroups=pantry$county,
+                   options=layersControlOptions(collapsed=FALSE));
+mm_pantry
+```
+
+Limitations:   
+We have merely looked at pantries that have bus stops within less than a mile.
+Future analyses should address whether there are bus routes that travel from low income neighborhoods (e.g., by zip codes identified as low income) to the food pantries in a reasonable amount of time (e.g., less than 1 hour).
+
+</br>
+
+#### Sources  
+[TransLoc](https://mashape.com/transloc/openapi-1-2)  
+[NC 2-1-1 Community Resource Database](http://www.nc211.org/index.php/find-help)  
+
+Files used for the analysis (downloaded Oct/Nov 2015):  
+A list of food pantries [pantries.csv](https://raw.githubusercontent.com/DrZeydy/Data4Good/gh-pages/pantries.csv)  
+A list of bus stops [bustops.rds](https://raw.githubusercontent.com/DrZeydy/Data4Good/gh-pages/busstops.rds)   
+A list of bus transportation agencies [local_agencies.csv](https://raw.githubusercontent.com/DrZeydy/Data4Good/gh-pages/local_agencies.csv)   
+</br>
+
+#### Contributors
+Monika Sanghi  
+Kip Sutter  
+Clara Sutter  
+Rex Dwyer  
+Alice Broadhead  
+Lucia Gjeltema  
+</br>
+
